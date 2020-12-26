@@ -1,0 +1,13 @@
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\bin\Debug\Board.exe
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\bin\Debug\Board.pdb
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\UIT-ChineseChess.csprojAssemblyReference.cache
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.FlashScreen.resources
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.ChessBoard.resources
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.NewGame.resources
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.Open.resources
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.Properties.Resources.resources
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.Sound_Options.resources
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\UIT-ChineseChess.csproj.GenerateResource.cache
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\UIT-ChineseChess.csproj.CoreCompileInputs.cache
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.exe
+D:\PLHT_A\git\Share_code\Source CoTuong\UIT-ChineseChess\Source\Board\obj\Debug\Board.pdb
