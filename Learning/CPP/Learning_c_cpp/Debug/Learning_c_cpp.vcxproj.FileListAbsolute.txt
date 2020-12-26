@@ -1,0 +1,2 @@
+D:\PLHT_A\git\Learning\CPP\Learning_c_cpp\Debug\Learning_c_cpp.exe
+D:\PLHT_A\git\Learning\CPP\Learning_c_cpp\Debug\Learning_c_cpp.pdb
