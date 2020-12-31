@@ -11,14 +11,26 @@ Le Thi Viet Thu
 3
 1.75
 1004
-Lam Duong Doi
+Lam Duong Duong
 3
 1.55
 1005
-Le Ngoc Thu
+Le Ngoc Thuong
 3
 1.75
 1006
-Lam Thi Doi
+Lam Thi Dep
 3
 1.55
+1007
+Le Viet Thu
+5
+2.75
+1008
+Le Viet Thu
+6
+1.75
+1009
+Le Viet Thu
+2
+2.75
