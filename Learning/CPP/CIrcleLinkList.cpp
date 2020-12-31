@@ -10,14 +10,14 @@ using namespace std;
 struct Ho_gia_dinh
 {
 	/* data */
-	int ma_ho;
-	string chu_ho;
-	int so_thanh_vien;
-	float thu_nhap;
+	int ma_ho; // Kieu int  Không trùng nhau
+	string chu_ho; // Kiểu string
+	int so_thanh_vien; // kiểu int
+	float thu_nhap; // đơn vị tính  (triệu VND)
 };
 
 
-int n;
+
 struct Node{
 	Ho_gia_dinh data;
 	Node *next;// Chứa địa chỉ kế tiếp của con trỏ
@@ -95,15 +95,15 @@ void nhap(List &l){
 	std::fstream myfile("CIrcleLinkList_data.txt", std::ios_base::in);// mở file để đọc
 	 if (myfile.is_open())
   	{
-		//cout<<"\nDang lay du lieu tu file "<<endl;
+		//cout<<"\nDang lay du lieu tu file "<<endl;// dùng để debug file
 		string ma_ho,chu_ho,so_thanh_vien,thu_nhap;
 		 while ( getline(myfile,ma_ho) )
 		 {
 			getline(myfile,chu_ho);
 			getline(myfile,so_thanh_vien);
 			getline(myfile,thu_nhap);
-			// string mh = ma_ho;
-			// cout<<"Chu ho:"<< stoi(mh)<<endl;
+			// string mh = ma_ho;// dùng để debug file
+			// cout<<"Chu ho:"<< stoi(mh)<<endl;// dùng để debug file
 			 Ho_gia_dinh temp;
 			temp.ma_ho =stoi(ma_ho);
 			temp.chu_ho =chu_ho;
@@ -112,7 +112,7 @@ void nhap(List &l){
 		 	addTail(l,temp);
 		}
 		myfile.close();
-		//cout<<"\nDa lay du lieu tu file: ";
+		//cout<<"\nDa lay du lieu tu file: ";// dùng để debug file
   	}
 	else 
 	{
@@ -134,16 +134,20 @@ void xuat(List l ){
 	if(l.head){
 		cout<< "\n\t--------------Danh sach ho gia dinh--------------- \n";
 		Node *p = l.head;
+		int count =1;
+		cout<<"._____._____________.____________________.___________.__________________." <<endl;
+		cout<<"| STT |    Ma ho    |     Ten chu ho     |  So luong  |     Thu nhap    |" <<endl;
+		cout<<"._____._____________.____________________.___________.__________________." <<endl;
 		do{
-			cout<<"Ma_ho:" << p->data.ma_ho <<endl;
-			cout<<"Ten_chu_ho:" << p->data.chu_ho <<endl;
-			cout<<"So_thanh_vien:" << p->data.so_thanh_vien <<endl;
-			cout<<"Thu_nhap:" << p->data.thu_nhap <<endl;
+			cout<<p->data.chu_ho;
 			p = p->next;
+			count++;
 		}while( p != l.head );
+		cout<<"\n|_____|_____________|____________________|____________|_________________|" <<endl;
+
 	}
-	else cout<< "\nDanh Sach Rong";
-	cout<< endl;
+	//else cout<< "\nDanh Sach Rong"; // dùng để debug file
+	//cout<< endl;// dùng để debug file
 }
 
 void delHead(List &l ){ // xoa node o dau List
@@ -177,7 +181,7 @@ void delTail(List &l ){
 
 void delAtK(List &l, int ma_ho ){
 	if( ma_ho <= 1) delHead(l);
-	else if( ma_ho >= n ) delTail(l);
+	else if( ma_ho >= 10 ) delTail(l); // còn bug dòng này
 	else{
 		int dem = 0;
 		if(!isEmpty(l)){
