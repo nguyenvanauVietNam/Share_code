@@ -118,7 +118,14 @@ void nhap(List &l){
 	{
 		cout << "Khong tim thay file : CIrcleLinkList_data.txt"<<endl;
 		cout << "vui long tai ve qua github:"<<endl;
-		cout << "vui long tai ve qua github:"<<endl;
+		cout << "https://github.com/nguyenvanauVietNam/Share_code/blob/main/Learning/CPP/CIrcleLinkList_data.txt"<<endl;
+		cout << "Hoac tao file theo mau sau"<<endl;
+		cout << "1. Tao mot file co ten CIrcleLinkList_data.txt"<<endl;
+		cout << "2. Dong dau:ma chu ho  -> kieu int"<<endl;
+		cout << "3. Dong 2: ten chu ho -> kieu string"<<endl;
+		cout << "4. Dong 3: so thanh vien -> kieu int"<<endl;
+		cout << "5. Dong 4 : thu nhap -> kieu float"<<endl;
+		cout << "6. Sau luu bo vao cung thu muc voi file CIrcleLinkList.cpp da build vidu: CIrcleLinkList.exe "<<endl;
 	}
 
 }
