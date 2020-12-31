@@ -2,7 +2,13 @@
     "files.associations": {
         "iostream": "cpp",
         "cmath": "c",
-        "xlocnum": "c"
+        "xlocnum": "c",
+        "xiosbase": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "string": "cpp",
+        "xstring": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
