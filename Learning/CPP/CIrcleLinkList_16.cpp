@@ -78,13 +78,11 @@ struct Node{
 struct List{
 	Node *pList; // phần tử cuối
 };
-
-
 /// Khởi tạo sao cho phần tử cuối là NULL
 void Init(List &l){ 
 	l.pList =NULL;
 }
-// Kiểm tra rỗng : nếu rỗng  = 0 mà không rỗng  =1
+// Kiểm tra rỗng : nếu rỗng  = 1 mà không rỗng  =0
 // Nếu  pList = Null thì return rỗng 
 // !Nếu  pList != NULL thì return flase
 // vì là danh sách LK vòng nên cuối danh sách ->next = đầu danh sách
@@ -131,30 +129,25 @@ Node * back_pList(List l)
 	}
 	return NULL;
 }
-// chen vao cuối List:
-void addpList(List &l, Ho_gia_dinh x ){ 
-	Node *p = creatNode(x);// truyền tham trị
-	if(!isEmpty(l)) //nếu danh sách rỗng
-	{
-		p->next =l.pList;
-		l.pList->next=p;
-	}
-	else // nếu danh sách không rỗng
-	{
-		
-	}
+//Thêm vào đầu
+void  Them_vao_dau(List &l, Ho_gia_dinh data) {
+    Node * p = creatNode(data);
+    if (isEmpty(l)) {
+        l.pList = p;
+        p -> next = p;
+    } else {
+        p -> next = l.pList -> next;
+        l.pList -> next = p;
+    }
 }
-
-// tim kiem theo tên ma ho
-// có thể có nhiều kết quả tìm kiếm vì tên co thể trùng nhau -> kết quả trả về là danh sách
-//thêm list
-Node *search(List l, int ma_ho ){
-	Node *p = l.pList;
-	do {
-		if( p->data.ma_ho == ma_ho ) return p;
-		else p = p->next;
-	} while( p != l.pList );
-	return NULL;
+// chen vao cuối List:
+//Trong Circular Linked List,
+//để thêm vào cuối bạn có thể thêm vào đầu và trả về đầu mới là next của node mới thêm vào.
+void Them_vao_cuoi(List &l, Ho_gia_dinh x ){ 
+		Them_vao_dau(l,x);
+		//đổi đầu mới
+		// pList vẫn ở cuối danh sách
+		l.pList = l.pList ->next;
 }
 // tim kiem theo tên chủ hộ
 // có thể có nhiều kết quả tìm kiếm vì tên co thể trùng nhau -> kết quả trả về là danh sách
@@ -169,11 +162,11 @@ bool so_sanh_string(string s1,string s2)
 			break;
 		}
 	}
-   
    return flag;
 }
-List search_ten_chu_ho(List l, string ten_chu_ho ){
-	// cout<<isEmpty(l)<<endl; //debug
+List Tim_ho_ten_chu_ho(List l, string ten_chu_ho ){
+	 //cout<<isEmpty(l)<<endl; //debug
+	//  cout<<ten_chu_ho<<endl; //debug
 	List result;
 	Init(result);
 	Node *p = l.pList;
@@ -183,7 +176,7 @@ List search_ten_chu_ho(List l, string ten_chu_ho ){
 		//cout << count <<endl;
 		if(so_sanh_string(p->data.chu_ho,ten_chu_ho) )
 		{
-			addpList(result,p->data);
+			Them_vao_cuoi(result,p->data);
 			//cout << count <<endl;
 		} 
 		p = p->next;
@@ -196,7 +189,7 @@ List search_ten_chu_ho(List l, string ten_chu_ho ){
 // input dữ liệu từ file
 //sử dụng myfile
 void nhap(List &l){
-	std::fstream myfile("CIrcleLinkList_data.txt", std::ios_base::in);// mở file để đọc
+	std::fstream myfile("CIrcleLinkList_data_16.txt", std::ios_base::in);// mở file để đọc
 	 if (myfile.is_open())
   	{
 		//cout<<"\nDang lay du lieu tu file "<<endl;// dùng để debug file
@@ -213,7 +206,8 @@ void nhap(List &l){
 			temp.chu_ho =chu_ho;
 			temp.so_thanh_vien =stoi(so_thanh_vien);
 			temp.thu_nhap =stof(thu_nhap);
-		 	addpList(l,temp);
+			//cout<<"addpList()_ing"<<endl; debug
+		 	Them_vao_dau(l,temp);
 		}
 		myfile.close();
 		//cout<<"\nDa lay du lieu tu file: ";// dùng để debug file
@@ -262,16 +256,71 @@ void xuat(List l ){
 	//cout<< endl;// dùng để debug file
 }
 
+// Kiểm tra mã hộ đã thêm có trùng với mã hộ nào không?
+// dùng hàm bool trả về là 1 có thể thêm, trả về 0 không thêm được
+bool Kiem_tra_ma_ho_them_co_trung(List l,int data)
+{
+	bool result = true;
+	Node *p = l.pList;
+	//int count = 0; //debug
+	do {
+	//	count++;//debug
+	//	cout << count <<endl;//debug
+		if(p->data.ma_ho == data) 
+		{
+			
+			result =false;
+			break;
+		} 
+		p = p->next;
+			
+
+	} while( p != l.pList );
+	return result;
+}
+void Them_ho_vao_cuoi_danh_sach(List &l,Ho_gia_dinh data)
+{
+	if(Kiem_tra_ma_ho_them_co_trung(l,data.ma_ho))
+	{
+		Them_vao_cuoi(l,data);
+	}
+		cout<<" da co ma ho xin vui long nhap lai"<<endl;
+}
 int main(){
-	//List khởi tạo để chạy
+	// Khai báo danh sách
 	List l;
+	// Khởi tạo danh sách
 	Init(l);
-	//nhap(l);
-	xuat(l);
-	// cout<<"tim chu ho ten Le Viet Thu:"<<endl;
-	// List f;
-	// Init(f);
-	// f =search_ten_chu_ho(l,"Le Viet Thu");
-	// xuat(f);
+	//cout<<isEmpty(l)<<endl;//debug
+	nhap(l);
+	//xuat(l); // Câu 1 hiển thị danh sách 
+	// // Câu 2 tìm chủ họ theo tên nhập từ bàn phím
+	//  cout<<"tim chu ho  theo ten:"<<endl;
+	//  List f;
+	//  Init(f);
+	//   string s;
+	//  cout<<"Vui long nhap ten chu ho:"<<endl;
+	//  getline(std::cin,s); // hàm nhập cả giá trị khoảng trắng
+	//  f =Tim_ho_ten_chu_ho(l,s);
+	//  xuat(f);
+	// //Kết thúc câu 2
+	//Câu 3:
+	// Ho_gia_dinh data;
+	// // data.ma_ho =1;
+	// // data.chu_ho ="Nguyen Van Au";
+	// // data.so_thanh_vien =3;
+	// // data.thu_nhap =5.6;
+	// cout<<"Vui long nhap ma ho:"<<endl;
+	// cin>>data.ma_ho;
+	// fflush(stdin);// phân biệt \n
+	// cout<<"Vui long nhap ten chu ho:"<<endl;
+	// getline(std::cin,data.chu_ho); // hàm nhập cả giá trị khoảng trắng
+	// cout<<"Vui long nhap so thanh vien:"<<endl;
+	// cin>>data.so_thanh_vien;
+	// cout<<"Vui long nhap thu nhap:"<<endl;
+	// cin>>data.thu_nhap;
+	// Them_ho_vao_cuoi_danh_sach(l,data);
+	// xuat(l);
+	// //kết thúc câu 3
 	return 0;
 }
