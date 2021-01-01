@@ -36,6 +36,7 @@ using namespace std;
 	10. Hủy danh sách
 	 - Lưu lại data
 	 - Sử dụng hàm hủy trong c++ ( đối với c free())
+	Thành phần quản lý gồm con trỏ pList trỏ vào cuối danh sách
 */
 //Cấu trúc dữ liệu hộ gia đình
 /*
@@ -71,18 +72,31 @@ struct Node{
 	 Mảng là tập hợp các biến cùng kiểu dữ liệu
 	 Danh sách liên kết là danh sách cấp phát động ( sử dụng con trỏ) phần tử cuối danh sách liên kết -> next sẽ -> NULL
 	 Danh sách liên kết vòng là danh sách mà phần tử cuối -> next sẽ -> phần tử đầu
+
+	Thành phần quản lý gồm con trỏ pList trỏ vào cuối danh sách
 */
 struct List{
-	Node *head;// phần tử đầu
-	Node *tail; // phần tử cuối
+	Node *pList; // phần tử cuối
 };
 
-void Init(List &l){ // Kiểm tra tạo thành vòng
-	l.head = l.tail = NULL;
-}
 
-Node *creatNode(Ho_gia_dinh x ){ // tạo thông tin cho node // int k
-	Node *p = new Node; // tạo node mới
+/// Khởi tạo sao cho phần tử cuối là NULL
+void Init(List &l){ 
+	l.pList =NULL;
+}
+// Kiểm tra rỗng : nếu rỗng  = 0 mà không rỗng  =1
+// Nếu  pList = Null thì return rỗng 
+// !Nếu  pList != NULL thì return flase
+// vì là danh sách LK vòng nên cuối danh sách ->next = đầu danh sách
+// Còn nếu cuối danh sách trả null thì chưa thêm phần tử nào vào
+bool isEmpty(List l ){ 
+	if(l.pList == NULL ) return true;
+	return false;
+}
+// tạo thông tin cho node // int k
+// Vì pList luôn nằm ở cuối danh sách nên thêm vào danh sách thì sẽ trỏ vào pList
+Node *creatNode(Ho_gia_dinh x ){ 
+	Node *p = new Node; 
 	if(p == NULL) exit(1);
 	// p -> next
 	p->next = NULL;
@@ -91,44 +105,55 @@ Node *creatNode(Ho_gia_dinh x ){ // tạo thông tin cho node // int k
 	p->data.chu_ho =x.chu_ho;
 	p->data.so_thanh_vien=x.so_thanh_vien;
 	p->data.thu_nhap = x.thu_nhap;
-	return p;
+	return p; //trả về Node
 }
-// Kiểm tra rỗng : nếu rỗng  = 0 mà không rỗng  =1
-bool isEmpty(List l ){ 
-	if(l.head == NULL ) return true;
-	return false;
+//hàm trà về Node trước pList
+Node * back_pList(List l)
+{
+	if(!isEmpty(l)) // nếu danh sách rỗng -> re turn null
+	{
+		return NULL;
+	}
+	else 
+	{
+		Node * Node_hien_tai = new Node;// Node hiện tại
+		Node * Node_truoc_do = new Node;// Node trước đó
+		Node_truoc_do  = NULL; // chưa rõ node trước đó hay tiếp theo
+		Node_hien_tai = l.pList;// Node hiện tại bằng pList
+		// sử dụng do while cho nhanh vì có khi List có 1
+		do
+		{
+			Node_truoc_do = Node_hien_tai;
+			Node_hien_tai = Node_hien_tai ->next;
+		} while (Node_hien_tai != l.pList);
+		// Sau khi đi 1 vòng thì ra kết quả
+		return Node_truoc_do;
+	}
+	return NULL;
+}
+// chen vao cuối List:
+void addpList(List &l, Ho_gia_dinh x ){ 
+	Node *p = creatNode(x);// truyền tham trị
+	if(!isEmpty(l)) //nếu danh sách rỗng
+	{
+		p->next =l.pList;
+		l.pList->next=p;
+	}
+	else // nếu danh sách không rỗng
+	{
+		
+	}
 }
 
-// chen vao dau List:
-void addHead(List &l, Ho_gia_dinh x ){ 
-	Node *p = creatNode(x);// truyền tham trị
-	if(isEmpty(l)) l.head = l.tail = p;
-	else{
-		p->next = l.head; // con tro next cua p tro toi dia chi cua node head(ban dau)
-		l.head = p; // cap nhat node head( luc sau )
-	}
-	l.tail->next = l.head; // khep vong don.
-}
-// hàm chèn vào đầu list
-//thông tin đầu vào: Danh sách List, cấu trúc hộ gia đình
-void addTail(List &l, Ho_gia_dinh x ){
-	Node *p = creatNode(x);// truyền tham trị
-	if(isEmpty(l)) addHead(l,x); // thêm hộ
-	else{
-		l.tail->next = p;
-		l.tail = p;
-	}
-	l.tail->next = l.head; // khep vong don
-}
 // tim kiem theo tên ma ho
 // có thể có nhiều kết quả tìm kiếm vì tên co thể trùng nhau -> kết quả trả về là danh sách
 //thêm list
 Node *search(List l, int ma_ho ){
-	Node *p = l.head;
+	Node *p = l.pList;
 	do {
 		if( p->data.ma_ho == ma_ho ) return p;
 		else p = p->next;
-	} while( p != l.head );
+	} while( p != l.pList );
 	return NULL;
 }
 // tim kiem theo tên chủ hộ
@@ -151,33 +176,23 @@ List search_ten_chu_ho(List l, string ten_chu_ho ){
 	// cout<<isEmpty(l)<<endl; //debug
 	List result;
 	Init(result);
-	Node *p = l.head;
+	Node *p = l.pList;
 	//int count = 0;
 	do {
-		count++;
-		cout << count <<endl;
+	//	count++;
+		//cout << count <<endl;
 		if(so_sanh_string(p->data.chu_ho,ten_chu_ho) )
 		{
-			addTail(result,p->data);
+			addpList(result,p->data);
 			//cout << count <<endl;
 		} 
 		p = p->next;
 			
 
-	} while( p != l.head );
+	} while( p != l.pList );
 	return result;
 }
 
-void addMid(List &l, Ho_gia_dinh x, Ho_gia_dinh k ){ // chen node co data = x vao sau node co data  = k;
-	Node *p = search(l,k.ma_ho);
-	if(p!=NULL){
-		Node *q= creatNode(x);
-		Node *r = p->next;
-		p->next = q;
-		q->next = r;
-	}
-	else cout<<"\nKhong tim thay node co data = k.";
-}
 // input dữ liệu từ file
 //sử dụng myfile
 void nhap(List &l){
@@ -198,7 +213,7 @@ void nhap(List &l){
 			temp.chu_ho =chu_ho;
 			temp.so_thanh_vien =stoi(so_thanh_vien);
 			temp.thu_nhap =stof(thu_nhap);
-		 	addTail(l,temp);
+		 	addpList(l,temp);
 		}
 		myfile.close();
 		//cout<<"\nDa lay du lieu tu file: ";// dùng để debug file
@@ -220,9 +235,9 @@ void nhap(List &l){
 }
 // xuat thong tin ra man hinh
 void xuat(List l ){	
-	if(l.head){
+	if(l.pList){
 		cout<< "\n\t--------------Danh sach ho gia dinh--------------- \n";
-		Node *p = l.head;
+		Node *p = l.pList;
 		int count =1;
 		cout<<"._____._____________.____________________.___________.__________________." <<endl;
 		cout<<"| STT |    Ma ho    |     Ten chu ho     |  So luong |     Thu nhap    |" <<endl;
@@ -239,80 +254,24 @@ void xuat(List l ){
 			printf("|%5d|%13d|%20s|%12d|%17f|\n",count,p->data.ma_ho,temp,p->data.so_thanh_vien,p->data.thu_nhap);
 			p = p->next;
 			count++;
-		}while( p != l.head );
+		}while( p != l.pList );
 		cout<<"|_____|_____________|____________________|____________|_________________|" <<endl;
 
 	}
-	//else cout<< "\nDanh Sach Rong"; // dùng để debug file
+	else cout<< "\nDanh Sach Rong"; // dùng để debug file
 	//cout<< endl;// dùng để debug file
 }
 
-void delHead(List &l ){ // xoa node o dau List
-	if(!isEmpty(l)){
-		if(l.head != l.tail ){
-			Node *p = l.head;
-			l.head = l.head->next; // cap nhat l.head
-			delete p; // xoa bo node head ban dau
-			l.tail->next = l.head;
-		}
-		else l.head = NULL;
-	}
-	else return;
-}
-
-void delTail(List &l ){
-	if(!isEmpty(l)){
-		if(l.head != l.tail ){
-			Node *p = l.head;
-			Node *q = new Node;
-			while(p->next != l.tail ) p = p->next; // tim node ngay truoc tail
-			q = p; // gan node nay cho node q
-			p = p->next; // p chinh la node tail can xoa
-			l.tail = q; // cap nhat l.tail
-			l.tail->next = l.head;
-			delete p;
-		} else l.head = NULL;
-	}
-	else return;
-}
-
-void delAtK(List &l, int ma_ho ){
-	if( ma_ho <= 1) delHead(l);
-	else if( ma_ho >= 10 ) delTail(l); // còn bug dòng này
-	else{
-		int dem = 0;
-		if(!isEmpty(l)){
-			Node *p = l.head;
-			Node *q = new Node;
-			while(p != NULL){ // tim node thu k.
-				dem++;
-				q = p;
-				if(dem == ma_ho ) break; // tim thay thi break
-				else p= p->next; // k thi tim tiep
-			}
-			Node *r = l.head;
-			while(r->next != q ) r = r->next; // tim node k-1
-			r->next = q->next; // cho node next cua node k-1 tro toi node k+1;
-			delete q;
-		}
-	}
-}
-
-void menu(){
-	List l;
-	Init(l);
-	nhap(l);
-	xuat(l);
-}
 int main(){
 	//List khởi tạo để chạy
 	List l;
 	Init(l);
-	nhap(l);
-	cout<<"tim chu ho ten Le Viet Thu:"<<endl;
-	List f;
-	Init(f);
-	f =search_ten_chu_ho(l,"Le Viet Thu");
-	xuat(f);
+	//nhap(l);
+	xuat(l);
+	// cout<<"tim chu ho ten Le Viet Thu:"<<endl;
+	// List f;
+	// Init(f);
+	// f =search_ten_chu_ho(l,"Le Viet Thu");
+	// xuat(f);
 	return 0;
 }
