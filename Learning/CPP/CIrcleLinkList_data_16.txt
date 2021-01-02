@@ -1,36 +1,36 @@
 1001
 Le Viet Thu
-3
+7
 1.75
 1002
 Lam Van Doi
-3
+5
 1.55
 1003
 Le Thi Viet Thu
-3
+4
 1.75
 1004
 Lam Duong Duong
-3
+6
 1.55
 1005
 Le Ngoc Thuong
-3
+8
 1.75
 1006
 Lam Thi Dep
-3
+9
 1.55
 1007
-Le Viet Thu
-5
+Le Viet Thuong
+3
 2.75
 1008
-Le Viet Thu
+Le Van Dia
 6
 1.75
 1009
-Le Viet Thu
-2
-2.75
+Le Quoc Viet
+11
+11

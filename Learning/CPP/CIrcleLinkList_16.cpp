@@ -231,7 +231,7 @@ void nhap(List &l){
 void xuat(List l ){	
 	if(l.pList){
 		cout<< "\n\t--------------Danh sach ho gia dinh--------------- \n";
-		Node *p = l.pList;
+		Node *p = l.pList->next;
 		int count =1;
 		cout<<"._____._____________.____________________.___________.__________________." <<endl;
 		cout<<"| STT |    Ma ho    |     Ten chu ho     |  So luong |     Thu nhap    |" <<endl;
@@ -246,9 +246,10 @@ void xuat(List l ){
 			//Thêm ký tự kết thúc chuỗi vào cuối chuỗi
 			temp[sizeof(temp)] ='\0';
 			printf("|%5d|%13d|%20s|%12d|%17f|\n",count,p->data.ma_ho,temp,p->data.so_thanh_vien,p->data.thu_nhap);
-			p = p->next;
+
 			count++;
-		}while( p != l.pList );
+			p = p->next;
+		}while( p != l.pList->next);
 		cout<<"|_____|_____________|____________________|____________|_________________|" <<endl;
 
 	}
@@ -286,6 +287,181 @@ void Them_ho_vao_cuoi_danh_sach(List &l,Ho_gia_dinh data)
 	}
 		cout<<" da co ma ho xin vui long nhap lai"<<endl;
 }
+
+// xóa 1 phần tử theo mã hộ
+void  Xoa_theo_ma_ho(List &l, int data) {
+	//cout << data <<endl; //debug
+	//cout << isEmpty(l) <<endl;//debug
+	Node *p = l.pList; // p = nút l.pList  int i = 0;
+	Node *pre;
+	// Nếu List rỗng
+	if(isEmpty(l)) 
+	{
+		l.pList = NULL;
+		//cout << l.pList <<endl; //debug
+	}
+	// nếu danh sách có 1 phần tử và nếu phần tử đó == số mã hộ cần xóa
+	else if(l.pList == l.pList ->next)
+	{
+		if(l.pList ->data.ma_ho ==data )
+		{
+			cout <<"line 307"<<endl;
+			l.pList = NULL;
+			delete p;// hủy 
+			cout <<isEmpty(l)<<endl;
+		}
+	}
+	else
+	{
+		// List không rỗng
+		do {
+			
+			pre = p;// cho pre bằng p 
+			p= p->next; // cho p = p->next
+			// Sau 2 lệnh trên ta được 1 con trỏ trước p và p
+			//cout <<"line 318" <<l.pList->data.ma_ho <<endl; //debgu
+			if(p->data.ma_ho == data) 
+			{
+				pre -> next = p -> next; // cắt 1 đoạn p ra sao đó nói pre -> next vào
+				if (p == l.pList) l.pList = pre;
+				free(p);
+				p = pre -> next;
+			} 
+			p = pre -> next;
+		} while( p != l.pList );
+	}
+}
+//5.nhập số thành viên. Hiển thị danh sách hộ có số thành viên đó.
+// vì chỉ là tìm mã hộ theo số thành viên nên trả về số hộ thôi -> kiểu int
+int Tim_so_ho_theo_so_thanh_vien ( List l, int so_thanh_vien)
+{
+	int result =0;
+	Node *p = l.pList;
+	//int count = 0;
+	do {
+	//	count++;
+		//cout << count <<endl;
+		if(p->data.so_thanh_vien == so_thanh_vien)
+		{
+			result ++;
+			//cout << count <<endl;
+		} 
+		p = p->next;
+			
+
+	} while( p != l.pList );
+	return result;
+}
+// câu 6  điếm số hộ có trên 2 M
+// hàm nhận vào danh sách list và thu nhập của hộ gia đình
+// trả về số lượng hộ có thu nhập trên >X
+int Diem_thu_nhap_tren_X ( List l, float thu_nhap)
+{
+	int result =0;
+	Node *p = l.pList;
+	//int count = 0;
+	do {
+	//	count++;
+		//cout << count <<endl;
+		if(p->data.thu_nhap > thu_nhap)
+		{
+			result ++;
+			//cout << count <<endl;
+		} 
+		p = p->next;
+			
+
+	} while( p != l.pList );
+	return result;
+}
+//Câu 7:Sắp xếp danh sách giảm dần theo số thành viên. 
+	//Điếm số lượng thành viên trong list
+	int Length(List  l) {
+		Node * current = l.pList;
+		int i = 1;
+		if (l.pList == NULL) {
+			return 0;
+		} else {
+			current = current -> next;
+			while (current != l.pList) {
+				i++;
+				current = current -> next;
+			}
+		}
+		return i;
+	}	
+void Sort(List  &l) {
+   //nếu list có danh sách nhỏ hơn 1 thì không cần sắp xếp
+   if(Length(l) >2)
+   {
+	Node *tail = l.pList;
+    Node * ptr1 = tail -> next, * ptr2, * min;
+    Ho_gia_dinh temp;
+    // selection sort implementation
+    while (ptr1 -> next != tail -> next) {
+        min = ptr1;
+        ptr2 = ptr1 -> next;
+        while (ptr2 != tail -> next) {
+            if (min -> data.so_thanh_vien < ptr2 -> data.so_thanh_vien) min = ptr2;
+            ptr2 = ptr2 -> next;
+        }
+        if (min != ptr1) {
+            temp = min -> data;
+            min -> data = ptr1 -> data;
+            ptr1 -> data = temp;
+        }
+        ptr1 = ptr1 -> next;
+    }
+   }
+}
+//Tìm kiếm danh sách các hộ có mức thu nhập dưới x triệu
+List Danh_sach_thu_Nhap_duoi_X(List l, float x ){
+	List result;
+	Init(result);
+	Node *p = l.pList;
+	//int count = 0;
+	do {
+	//	count++;
+		//cout << count <<endl;
+		if(p->data.thu_nhap < x )
+		{
+			//cout<< p->data.thu_nhap<< endl;
+			Them_vao_cuoi(result,p->data);
+			//cout << count <<endl;
+		} 
+		p = p->next;
+			
+	} while( p != l.pList );
+	return result;
+}
+
+
+
+//Hàm hủy danh sách
+void Huy_List(List &l)
+{
+	if(!isEmpty)
+	{
+		cout<<"Khong the huy"<<endl;
+	} else if(l.pList =l.pList->next)
+	{
+		delete l.pList;
+		l.pList = NULL;
+      
+	}
+	else
+	{
+		Node* node = l.pList,*p;
+		while (l.pList)
+		{
+			p = node->next;
+      		delete node;
+		}
+		delete node;
+		delete p;
+		l.pList =NULL;
+	}
+}
 int main(){
 	// Khai báo danh sách
 	List l;
@@ -322,5 +498,35 @@ int main(){
 	// Them_ho_vao_cuoi_danh_sach(l,data);
 	// xuat(l);
 	// //kết thúc câu 3
+	//Câu 4:
+	//Xoa_theo_ma_ho(l,1001);
+	//xuat(l);
+	// câu 5:
+	//cout << Tim_so_ho_theo_so_thanh_vien(l,100)<<endl;
+	//Câu 6:
+	//cout << " so thanh vien duoi 2 M"<< Diem_thu_nhap_tren_X(l,2)<<endl;
+	// Câu 7:
+	//Sort(l);
+	//xuat(l);
+	// câu 8:
+	//thêm 1 hộ mới
+	// Ho_gia_dinh data;
+	// data.ma_ho =1010;
+	// data.chu_ho ="Nguyen Van Au";
+	// data.so_thanh_vien =3;
+	// data.thu_nhap =5.6;
+	// Them_ho_vao_cuoi_danh_sach(l,data);
+	// //sort:
+	// Sort(l);
+	// xuat(l);
+	// Câu 9:
+	 List f;
+	 Init(f);
+	 f =Danh_sach_thu_Nhap_duoi_X(l,10);
+	Sort(f);
+	xuat(f);
+	//cau 10:
+	Huy_List(f);
+	xuat(f);
 	return 0;
 }
