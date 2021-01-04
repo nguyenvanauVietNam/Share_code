@@ -164,7 +164,7 @@ bool so_sanh_string(string s1,string s2)
 	}
    return flag;
 }
-List Tim_ho_ten_chu_ho(List l, string ten_chu_ho ){
+List Tim_ten_chu_ho(List l, string ten_chu_ho ){
 	 //cout<<isEmpty(l)<<endl; //debug
 	//  cout<<ten_chu_ho<<endl; //debug
 	List result;
@@ -174,7 +174,7 @@ List Tim_ho_ten_chu_ho(List l, string ten_chu_ho ){
 	do {
 	//	count++;
 		//cout << count <<endl;
-		if(so_sanh_string(p->data.chu_ho,ten_chu_ho) )
+		if(strstr(ten_chu_ho,p->data.chu_ho)!=NULL )
 		{
 			Them_vao_cuoi(result,p->data);
 			//cout << count <<endl;
@@ -230,6 +230,7 @@ void nhap(List &l){
 // xuat thong tin ra man hinh
 void xuat(List l ){	
 	if(l.pList){
+		cout<< "\t------Bai Tap So 16---------"<<endl;
 		cout<< "\n\t--------------Danh sach ho gia dinh--------------- \n";
 		Node *p = l.pList->next;
 		int count =1;
@@ -462,6 +463,22 @@ void Huy_List(List &l)
 		l.pList =NULL;
 	}
 }
+ void menu()
+ {
+	 cout<< "Moi ban chon 1 trong cac Mod sau"<<endl;
+	 cout<< "1. Hien thi danh sach"<<endl;
+	 cout<< "2. Tim ho theo Ten chu ho"<<endl;
+	 cout<< "3. Them ho vao cuoi danh sach "<<endl;
+	 cout<< "4. Xoa ho theo Ma ho"<<endl;
+	 cout<< "5. Hien thi danh sach ho co so thanh vien da nhap"<<endl;
+	 cout<< "6. So ho co thu nhap tren 2 trieu"<<endl;
+	 cout<< "7. Sap xep giam dan theo so thanh vien"<<endl;
+	 cout<< "8. Them ho moi, sap xep"<<endl;
+	 cout<< "9. Danh sach ho co muc thu nhap duoi 10 trieu"<<endl;
+	 cout<< "10.Huy toan bo danh sach"<<endl;
+	 cout<< "0. Thoat chuong trinh"<<endl;
+
+ }
 int main(){
 	// Khai báo danh sách
 	List l;
@@ -519,14 +536,71 @@ int main(){
 	// //sort:
 	// Sort(l);
 	// xuat(l);
-	// Câu 9:
-	 List f;
-	 Init(f);
-	 f =Danh_sach_thu_Nhap_duoi_X(l,10);
-	Sort(f);
-	xuat(f);
-	//cau 10:
-	Huy_List(f);
-	xuat(f);
+	// // Câu 9:
+	//  List f;
+	//  Init(f);
+	//  f =Danh_sach_thu_Nhap_duoi_X(l,10);
+	// Sort(f);
+	// xuat(f);
+	// //cau 10:
+	// Huy_List(f);
+	// xuat(f);
+	int  i;
+	string s;
+	xuat(l);
+	menu();
+	cout<< "Vui long nhap mod:";
+	cin >>i;
+	do
+	{
+		switch (i)
+		{
+			//1.	 Hiển thị toàn bộ danh sách
+			case 1:
+			{	/* code */
+				system("cls");
+				cout<< "Mod 1. Hien thi toan bo danh sach:"<<endl;
+				menu();
+				cout<< "Vui long nhap mod:";
+				cin >>i;
+				break;
+			}
+			//2.	Tìm  hộ theo Tên chủ hộ (nhập vào)
+			// case 2:
+			// {
+			// 	/* code */
+			// 	cout<<"tim chu ho  theo ten:"<<endl;
+			// 	List f;
+			// 	Init(f);
+			// 	cout<<"Vui long nhap ten chu ho:"<<endl;
+			// 	//getline(std::cin,s); // hàm nhập cả giá trị khoảng trắng
+			// 	cin>>s;// nhap ten
+			// 	f =Tim_ten_chu_ho(l,s);
+			// 	xuat(f);
+			// 	menu();
+			// 	cout<< "Vui long nhap mod:";
+			// 	std::cin>>i;
+			// 	break;
+			// }
+			case 3:
+			{
+				/* code */
+				system("cls");
+				menu();
+				break;
+			}
+			default:
+			{
+				xuat(l);
+				menu();
+				cout<< "Vui long nhap mod:";
+				cin >>i;
+				break;
+			}
+		}
+	} while(i!=0);
+	
+
+
 	return 0;
 }
