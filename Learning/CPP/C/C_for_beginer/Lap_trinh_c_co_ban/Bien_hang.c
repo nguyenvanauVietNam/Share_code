@@ -23,3 +23,18 @@ int main(void)
     //2 biến cục bộ
     int b =5;
 }
+
+
+
+
+
+
+
+// hàm sắp xếp cho phép đổi vị trí hai số nguyên
+// đầu vào hai số nguyên a,b
+// đầu ra trả về không có
+// hàm thực thi : chuyển đổi giá trị hai biến đầu vào
+void swap( int *a, int *b)
+{
+    //nội dung
+}
